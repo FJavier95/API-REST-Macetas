@@ -17,6 +17,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping(value = "/api/event")
 @Api(tags = "Event Controller")
+@ApiIgnore
 public class EventController {
 
     @Autowired

@@ -49,6 +49,19 @@ public class SensorServiceImpl implements ISensorService {
         return sensorMapper.entitiesToDto(sensores);
     }
 
+    public SensorDTO modificarSensor(SensorDTO sensor, String identificador){
+        Sensor sensorFind = sensorDao.findByName(identificador);
+
+        if (!sensorFind.getNombre().equals(sensor.getNombre())) {
+            sensorFind.setNombre(sensor.getNombre());
+        }
+        if (!sensorFind.getTipoSensor().getNombre().equals(sensor.getTipoSensorId())) {
+            sensorFind.setTipoSensor(tipoSensorDao.findByNombre(sensor.getTipoSensorId()));
+        }
+
+        sensorDao.save(sensorFind);
+        return sensorMapper.entityToDto(sensorFind);
+    }
     public SensorDTO buscarSensor(String sensorId) {
         Optional<Sensor> sensor = sensorDao.findById(Long.parseLong(sensorId));
         return sensorMapper.entityToDto(sensor.get());
@@ -64,4 +77,8 @@ public class SensorServiceImpl implements ISensorService {
         return sensorDTOS;
     }
 
+    public void borrarSensor( String identificador){
+        Sensor sensorFind = sensorDao.findByName(identificador);
+        sensorDao.deleteById(sensorFind.getId());
+    }
 }

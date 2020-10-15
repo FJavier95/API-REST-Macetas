@@ -34,7 +34,7 @@ public class TimeLineServiceImpl implements ITimeLineService {
 
     public List<TimeLineDTO> valoresSensor(String sensor_id){
         Optional<Sensor> sensor = sensorDao.findById(Long.parseLong(sensor_id));
-        return sensor.isPresent() ? timelineMapper.entitiesToDto(timeLineDao.findBySensor(sensor.get())) : null;
+        return sensor.isPresent() ? timelineMapper.entitiesToDto(timeLineDao.findBySensorOrder(sensor.get())) : null;
     }
 
     public List<ValoresangularDTO> valoresCliente(){
@@ -48,43 +48,43 @@ public class TimeLineServiceImpl implements ITimeLineService {
                 valores.setClienteDTO(client);
                 for(Sensor_Cliente sensor_cliente : sensor_clientes) {
                     switch (sensor_cliente.getSensores().getNombre()) {
-                        case "agua": {
+                        case "Detector de Agua": {
                             for (Timeline timeline : timeLineDao.findBySensorOrder(sensor_cliente.getSensores())) {
                                 valores.getAgua_detectada().add(timeline.getValor());
                             }
                             break;
                         }
-                        case "peso": {
+                        case "Sensor Peso": {
                             for (Timeline timeline : timeLineDao.findBySensorOrder(sensor_cliente.getSensores())) {
                                 valores.getPeso().add(timeline.getValor());
                             }
                             break;
                         }
-                        case "humedad_tierra": {
+                        case "Humedad Superficie": {
                             for (Timeline timeline : timeLineDao.findBySensorOrder(sensor_cliente.getSensores())) {
                                 valores.getHumedad_tierra().add(timeline.getValor());
                             }
                             break;
                         }
-                        case "temperatura_interior": {
+                        case "Temperatura Superficie": {
                             for (Timeline timeline : timeLineDao.findBySensorOrder(sensor_cliente.getSensores())) {
                                 valores.getTemperatura_interior().add(timeline.getValor());
                             }
                             break;
                         }
-                        case "humedad_ambiental": {
+                        case "Humedad Ambiental": {
                             for (Timeline timeline : timeLineDao.findBySensorOrder(sensor_cliente.getSensores())) {
                                 valores.getHumedad_ambiental().add(timeline.getValor());
                             }
                             break;
                         }
-                        case "luz_ambiental": {
+                        case "Luminosidad": {
                             for (Timeline timeline : timeLineDao.findBySensorOrder(sensor_cliente.getSensores())) {
                                 valores.getLuz_ambiental().add(timeline.getValor());
                             }
                             break;
                         }
-                        case "temperatura_ambiental": {
+                        case "Temperatura Ambiental": {
                             for (Timeline timeline : timeLineDao.findBySensorOrder(sensor_cliente.getSensores())) {
                                 valores.getTemperatura_ambiental().add(timeline.getValor());
                             }

@@ -11,6 +11,8 @@ import com.tfg.maceteros.modelo.*;
 import com.tfg.maceteros.modelo.dao.*;
 import com.tfg.maceteros.service.IServicio;
 import com.tfg.maceteros.service.config.Constantes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -48,12 +50,24 @@ public class Servicio implements IServicio {
 	private EventsDao eventsDao;
 	@Autowired
 	private EventsMapper eventsMapper;
+	@Autowired
+	private UsuarioDao usuarioDao;
 	@Bean
 	private RestTemplate restTemplate(RestTemplateBuilder builder) {
 		// Do any additional configuration here
 		return builder.build();
 	}
 
+	public Usuario login(String usuario, String pass){
+	List<Usuario> usuarios =(ArrayList<Usuario>) usuarioDao.findAll();
+	String passCod = Base64.getEncoder().encodeToString(pass.getBytes());
+		for (Usuario user:usuarios ) {
+			if(user.getUsuario().equals(usuario) && user.getPass().equals(passCod)){
+				return user;
+			}
+		}
+		return new Usuario();
+	}
 	private HttpHeaders cabeceras() {
 		HttpHeaders headers = new HttpHeaders();
 		// headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -69,6 +83,7 @@ public class Servicio implements IServicio {
 	}
 
 	public List<TimeLineDTO> persisitirDatos(String device, String idThingsboard){
+		Logger logger = LoggerFactory.getLogger(Servicio.class);
 		Cliente cliente = clienteDao.findByThingsBoard(idThingsboard);
 		List<TimeLineDTO> listaResultado = new ArrayList<TimeLineDTO>();
 		if (device != null) {
@@ -76,8 +91,10 @@ public class Servicio implements IServicio {
 			ObjectMapper objectMapper = new ObjectMapper();
 			HttpEntity<String> entity = new HttpEntity<String>(null, this.cabeceras());
 			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
 			try {
 				Map valores = objectMapper.readValue(response.getBody(), Map.class);
+				logger.info("VALORES OBTENIDOS: ", valores);
 				Object[] arrayKeys= valores.keySet().toArray();
 				for(Object object : arrayKeys){
 					Timeline timeline = new Timeline();

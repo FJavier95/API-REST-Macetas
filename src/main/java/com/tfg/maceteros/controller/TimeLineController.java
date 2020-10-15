@@ -22,7 +22,7 @@ public class TimeLineController {
     private ITimeLineService service;
 
     @GetMapping(value = "/{sensor_id}")
-    @ApiOperation(value = "Operación para listar los 100 ultimos  valores recogidos por un sensor")
+    @ApiOperation(value = "Operación para listar los valores recogidos por un sensor")
     public List<TimeLineDTO> valoresSensor(@PathVariable(value = "sensor_id") @ApiParam(value = "Identificador del sensor a buscar") String sensorId ) {
         return service.valoresSensor(sensorId);
     }

@@ -44,8 +44,8 @@ public class ClienteController {
     @ApiIgnore
     @PostMapping(value = "/{client_id}")
     @ApiOperation(value = "Operación para realizar la modificacion de un cliente")
-    public ClienteDTO modificarCliente(@NotNull @NotEmpty @RequestBody @ApiParam(value = "Cliente que se desea añadir") ClienteDTO cliente) {
-        return service.modificarCliente(cliente);
+    public ClienteDTO modificarCliente(@NotNull @NotEmpty @RequestBody @ApiParam(value = "Cliente que se desea añadir") ClienteDTO cliente, @PathVariable("client_id") String identificador) {
+        return service.modificarCliente(cliente,identificador);
     }
 
     @ApiIgnore

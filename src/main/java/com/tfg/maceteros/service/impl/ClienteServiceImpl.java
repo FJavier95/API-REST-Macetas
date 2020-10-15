@@ -29,22 +29,18 @@ public class ClienteServiceImpl implements IClienteService {
         return clienteMapper.entityToDto(clienteDao.findByThingsBoard(clienteDto.getThingsboardId()));
     }
 
-    public ClienteDTO modificarCliente(ClienteDTO clienteDto) {
-        Optional<Cliente> cliente = clienteDao.findById(clienteDto.getId());
-        if(cliente.isPresent()) {
-            if (!cliente.get().getDescripcion().equals(clienteDto.getDescripcion())) {
-                cliente.get().setDescripcion(clienteDto.getDescripcion());
+    public ClienteDTO modificarCliente(ClienteDTO clienteDto ,String identificador) {
+        Cliente cliente = clienteDao.findByThingsBoard(identificador);
+
+            if (!cliente.getDescripcion().equals(clienteDto.getDescripcion())) {
+                cliente.setDescripcion(clienteDto.getDescripcion());
             }
-            if (!cliente.get().getLetra().equals(clienteDto.getLetra())) {
-                cliente.get().setLetra(clienteDto.getLetra());
+            if (!cliente.getThingsboardId().equals(clienteDto.getThingsboardId())) {
+                cliente.setThingsboardId(clienteDto.getThingsboardId());
             }
-            if (!cliente.get().getThingsboardId().equals(clienteDto.getThingsboardId())) {
-                cliente.get().setThingsboardId(clienteDto.getThingsboardId());
-            }
-            clienteDao.save(cliente.get());
-            return clienteMapper.entityToDto(cliente.get());
-        }
-        return null;
+            clienteDao.save(cliente);
+            return clienteMapper.entityToDto(cliente);
+
     }
 
     public ClienteDTO borrarCliente(String clienteId) {

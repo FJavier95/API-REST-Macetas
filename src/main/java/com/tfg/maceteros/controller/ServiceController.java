@@ -2,6 +2,7 @@ package com.tfg.maceteros.controller;
 
 import com.tfg.maceteros.dto.EventsDTO;
 import com.tfg.maceteros.dto.TimeLineDTO;
+import com.tfg.maceteros.modelo.Usuario;
 import com.tfg.maceteros.service.IServicio;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,12 @@ public class ServiceController {
 	@Autowired
 	private IServicio service;
 
+	@GetMapping(value = "login")
+	@ApiOperation(value = "Operación para persistir todos los datos de un dispositvo",hidden = true)
+	@ApiIgnore
+	public Usuario login(@RequestParam String user, @RequestParam String pass){
+		return service.login(user,pass);
+	}
 	@PostMapping(value = "/persistir")
 	@ApiOperation(value = "Operación para persistir todos los datos de un dispositvo",hidden = true)
 	@ApiIgnore

@@ -8,7 +8,9 @@ import java.util.List;
 public interface ISensorService {
 
 SensorDTO añadirSensor(SensorDTO sensorDTO);
+    void borrarSensor( String identificador);
     List<SensorDTO> listarSensores();
+   SensorDTO modificarSensor(SensorDTO sensor, String identificador);
     List<SensorDTO> listarSensoresCliente(String cliente);
     SensorDTO buscarSensor(String sensorId);
 }

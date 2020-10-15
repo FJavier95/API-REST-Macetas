@@ -30,6 +30,20 @@ public class SensorController {
         return service.añadirSensor(sensor);
     }
 
+    @ApiIgnore
+    @PostMapping(value = "/{sensor_id}")
+    @ApiOperation(value = "Operación para realizar la modificacion de un sensor")
+    public SensorDTO modificarSensor(@NotNull @NotEmpty @RequestBody @ApiParam(value = "Sensor con las modificaciones") SensorDTO sensor, @PathVariable("sensor_id") String identificador) {
+        return service.modificarSensor(sensor,identificador);
+    }
+
+    @ApiIgnore
+    @DeleteMapping(value = "/{sensor_id}")
+    @ApiOperation(value = "Operación para realizar la modificacion de un sensor")
+    public void borrarSensor( @PathVariable("sensor_id") String identificador) {
+         service.borrarSensor(identificador);
+    }
+
     @GetMapping(value = "")
     @ApiOperation(value = "Operacion para listar todos los sensores de la Base de Datos")
     public List<SensorDTO> listarSensores() {

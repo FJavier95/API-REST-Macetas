@@ -7,7 +7,7 @@ import java.util.List;
 @Service
 public interface IClienteService {
     ClienteDTO añadirCliente(ClienteDTO cliente);
-    ClienteDTO modificarCliente(ClienteDTO clienteDto);
+    ClienteDTO modificarCliente(ClienteDTO clienteDto, String identificador);
     ClienteDTO borrarCliente(String clienteId);
     ClienteDTO buscarCliente(String identificador);
     ClienteDTO buscarPorSensor(String sensorId);
